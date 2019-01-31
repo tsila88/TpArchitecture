@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<resources>
+
+	<Resource id="myTestDataSourceGit" type="javax.sql.DataSource">
+		JdbcDriver org.hsqldb.jdbcDriver
+		<!-- Pour effectuer les sauvegarde dans /tmp/ma-db, tu enleves les commentaires
+			,et tu supprimes l'autre ligne de JdbcUrl -->
+		<!-- JdbcUrl jdbc:hsqldb:file:/tmp/ma-bd -->
+		<!-- JdbcUrl jdbc:hsqldb:mem:inMemoryDatabase -->
+		JdbcUrl jdbc:hsqldb:mem:inMemoryDatabase
+		UserName sa
+		Password
+		jtaManaged true
+	</Resource>
+
+</resources>

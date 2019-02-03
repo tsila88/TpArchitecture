@@ -1,0 +1,11 @@
+ 
+RATSIMBAZAFY Aina tsilavina  et MOEINI Sara
+
+
+C'est le premier rendu du devoir d'Architecture des Applications qui contient l'interface de la couche métier.
+
+Dans le package entity il y a des javabeans, package serviceDAO qui a des Dao et leurs implemantions, un package de test et finallement celui de controlleurs.
+
+
+
+

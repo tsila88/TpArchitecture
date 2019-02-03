@@ -2,7 +2,7 @@
 
 <resources>
 
-	<Resource id="myTestDataSourceGit" type="javax.sql.DataSource">
+	<Resource id="myTestDataSource" type="javax.sql.DataSource">
 		JdbcDriver org.hsqldb.jdbcDriver
 		<!-- Pour effectuer les sauvegarde dans /tmp/ma-db, tu enleves les commentaires
 			,et tu supprimes l'autre ligne de JdbcUrl -->

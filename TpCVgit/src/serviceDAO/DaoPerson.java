@@ -22,7 +22,20 @@ public interface DaoPerson {
 	public List<Person> findPersonsByFirstName(String pattern);
 
 	public List<Person> findPersonsByLastName(String pattern);
-	
+
 	public List<Person> findPersonByTitre(String pattern);
+
+	/**
+	 * Return the person when logged in. Usage: return the person logged and follow
+	 * it with a statefull bean
+	 */
+	public Person findLog(String mail, String pswd);
+
+	/***
+	 * Return a list that contains the person, used because the NoResultException
+	 * can't be cacthed, but return an error Usage: to test the list if conatains a
+	 * Person
+	 */
+	public List<Person> findLogList(String mail, String pswd);
 
 }

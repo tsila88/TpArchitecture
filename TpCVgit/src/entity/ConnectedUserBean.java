@@ -1,29 +1,38 @@
 package entity;
 
-import javax.ejb.Remove;
+import javax.ejb.EJB;
 import javax.ejb.Stateful;
 
-@Stateful(name="connectedUser")
+/**
+ * Statefull bean represents the state of a connected user Take in charge the
+ * connected user
+ * 
+ * @author tsila
+ *
+ */
+@Stateful(name = "connectedUser")
 public class ConnectedUserBean {
+
+	@EJB
+	private Person personConnected;
 	
-	 private String login = "";
+	private boolean state = false;
 
-	    public void login(String login, String pwd) {
-	        this.login = "";
-	        if (login.equals(pwd)) {
-	            this.login = login;
-	            System.out.printf("Login user %s on %s\n", login, this);
-	        }
-	    }
+	public boolean isState() {
+		return state;
+	}
 
-	    @Remove
-	    public void logout() {
-	        this.login = "";
-	        System.out.printf("Logout on %s\n", this);
-	    }
+	public void setState(boolean state) {
+		this.state = state;
+	}
 
-	    public String getLogin() {
-	        return login;
-	    }
+	public Person getPersonConnected() {
+		return personConnected;
+	}
 
+	public void setPersonConnected(Person personConnected) {
+		this.personConnected = personConnected;
+	}
+
+	
 }

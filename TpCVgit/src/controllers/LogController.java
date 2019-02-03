@@ -1,38 +1,49 @@
 package controllers;
 
-import java.text.ParseException;
-import java.util.List;
-
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+import javax.persistence.NoResultException;
 
 import entity.ConnectedUserBean;
 import entity.Person;
 import serviceDAO.DaoPerson;
 
-@ManagedBean(name = "index")
+@ManagedBean(name = "log")
 @SessionScoped
-public class IndexController {
+public class LogController {
 
 	@EJB
 	DaoPerson personManager;
-	
-	
 	@EJB
 	ConnectedUserBean userConnected;
 
 	Person person = new Person();
 
-	// firstName, lastName, birthDay, mdp, website, mail
-	/**
-	 * Method to create the admin if not exist
-	 * 
-	 * @throws ParseException
-	 */
+	private String mail;
+	private String pswd;
+
+	public String getMail() {
+		return mail;
+	}
+
+	public void setMail(String mail) {
+		this.mail = mail;
+	}
+
+	public String getPswd() {
+		return pswd;
+	}
+
+	public void setPswd(String pswd) {
+		this.pswd = pswd;
+	}
+
 	@PostConstruct
-	public void init() throws ParseException {
+	public void init() {
 
 		if (personManager.findAllPersons().size() == 0) {
 
@@ -43,14 +54,22 @@ public class IndexController {
 			person.setMdp("admin");
 			person.setBirthDay("12/12/2001");
 			person.setWebsite("adminWebsite");
+			personManager.addPerson(person);
+
+		}
+	}
+
+	public String checkLog() {
+
+		if (personManager.findLogList(this.getMail(), this.getPswd()).isEmpty()) {
+
+			
+			return "logfailled.xhtml?faces-redirect=true";
 
 		}
 
-	}
-
-	List<Person> getPerons() {
-		return personManager.findAllPersons();
-
+		
+		return "index.xhtml";
 	}
 
 }

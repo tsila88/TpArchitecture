@@ -1,15 +1,12 @@
 package jpatest.entities;
 
-
-
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.embeddable.EJBContainer;
+import javax.persistence.NoResultException;
 import javax.transaction.Transactional;
 
 import org.junit.After;
@@ -55,11 +52,12 @@ public class TestDaoPerson {
 
 	@Ignore
 	@Test
-	public void testAddPerson() throws ParseException {
-		Date birthDate = new SimpleDateFormat("dd/MM/yyyy").parse("22/07/1999");
-		Person p1 = new Person("Lenon", "John", "johnlenon@mail.com", "johnlenon-website.com", "mdp1", birthDate);
+	public void testAddPerson() throws NoResultException {
+
+		Person p1 = new Person("Lenon1", "John", "johnlenon@mail.com", "johnlenon-website.com", "mdp1", "27/10/1998");
 		dao.addPerson(p1);
-		Person p2 = new Person("Lebron", "James", "LebronJames@mail.com", "LebronJames-website.com", "mdp2", birthDate);
+		Person p2 = new Person("Lebron", "James", "LebronJames@mail.com", "LebronJames-website.com", "mdp2",
+				"12/10/2001");
 		dao.addPerson(p2);
 
 		Assert.assertTrue(p1 instanceof Person);
@@ -67,26 +65,66 @@ public class TestDaoPerson {
 
 	}
 
+	@Test
+	public void testPersonLog() {
+
+		Person p1 = new Person("Lenon1", "John", "johnlenon@mail.com", "johnlenon-website.com", "mdp1", "27/10/1998");
+		dao.addPerson(p1);
+		Assert.assertTrue(p1 instanceof Person);
+		Assert.assertTrue(dao.findLog("johnlenon@mail.com", "mdp1") instanceof Person);
+		Assert.assertEquals(p1.getLastName(), dao.findLog("johnlenon@mail.com", "mdp1").getLastName());
+		/**
+		 * Test the list of person returned by the method findLogList when the mail and
+		 * pswd don't match
+		 * 
+		 */
+
+		Assert.assertTrue(dao.findLogList("johnlenon@mail.com", "mdp1") instanceof List<?>);
+		Assert.assertEquals(0, dao.findLogList("johnlenon@mail.com", "").size());
+		/**
+		 * Test the list of person returned by the method findLogList when the mail and
+		 * pswd match
+		 * 
+		 */
+
+		Assert.assertTrue(dao.findLogList("johnlenon@mail.com", "mdp1") instanceof List<?>);
+		Assert.assertEquals(1, dao.findLogList("johnlenon@mail.com", "mdp1").size());
+	}
+
+	@Ignore
+	@Test
+	public void testFindPersonByFirstName() {
+
+		Person p1 = new Person("Lenon1", "John", "johnlenon@mail.com", "johnlenon-website.com", "mdp1", "27/10/1998");
+		dao.addPerson(p1);
+		List<Person> listPerson = new ArrayList<Person>();
+		listPerson.add(p1);
+		Assert.assertTrue(dao.findPersonsByFirstName("Lenon1") instanceof List<?>);
+		Assert.assertEquals(listPerson.size(), dao.findPersonsByFirstName("Lenon1").size());
+	}
+
 	@Ignore
 	@Test
 	public void testFindPerson() throws ParseException {
-		Date birthDate = new SimpleDateFormat("dd/MM/yyyy").parse("22/07/1999");
-		Person p1 = new Person("Lenon", "John", "johnlenon@mail.com", "johnlenon-website.com", "mdp1", birthDate);
+
+		Person p1 = new Person("Lenon1", "John", "johnlenon@mail.com", "johnlenon-website.com", "mdp1", "27/10/1998");
 		dao.addPerson(p1);
-		Person p2 = new Person("Lebron", "James", "LebronJames@mail.com", "LebronJames-website.com", "mdp2", birthDate);
+		Person p2 = new Person("Lebron", "James", "LebronJames@mail.com", "LebronJames-website.com", "mdp2",
+				"12/10/2001");
 		dao.addPerson(p2);
 
 		Assert.assertTrue(dao.findPerson(p1.getId()) instanceof Person);
 		Assert.assertTrue(dao.findPerson(p2.getId()) instanceof Person);
 	}
 
+	@Ignore
 	@Test
-	public void testFindAllPersons() throws ParseException,IllegalArgumentException {
+	public void testFindAllPersons() throws ParseException, IllegalArgumentException {
 
-		Date birthDate = new SimpleDateFormat("dd/MM/yyyy").parse("22/07/1999");
-		Person p1 = new Person("Lenon1", "John", "johnlenon@mail.com", "johnlenon-website.com", "mdp1", birthDate);
+		Person p1 = new Person("Lenon1", "John", "johnlenon@mail.com", "johnlenon-website.com", "mdp1", "27/10/1998");
 		dao.addPerson(p1);
-		Person p2 = new Person("Lebron", "James", "LebronJames@mail.com", "LebronJames-website.com", "mdp2", birthDate);
+		Person p2 = new Person("Lebron", "James", "LebronJames@mail.com", "LebronJames-website.com", "mdp2",
+				"12/10/2001");
 		dao.addPerson(p2);
 		List<Person> listPerson = new ArrayList<Person>();
 		listPerson.add(p1);
@@ -94,28 +132,23 @@ public class TestDaoPerson {
 
 		Assert.assertEquals(2, listPerson.size());
 		Assert.assertEquals(listPerson.size(), dao.findAllPersons().size());
-		
+
 		dao.removePerson(p1);
-		
+
 		Assert.assertEquals(null, dao.findPerson(p1.getId()));
-		
+
 		p1.setFirstName("Lenonbis");
-		
+
 		dao.updatePerson(p1);
-		
+
 		Assert.assertTrue(dao.findPersonsByFirstName("Lenonbis") instanceof List<?>);
 		dao.findPersonsByFirstName("Lenonbis").contains(p1);
-		
-		
+
 		List<Person> listPersonTestFindByFirstName = new ArrayList<Person>();
 		listPersonTestFindByFirstName.add(p1);
-		//boolean b = listPersonTestFindByFirstName.equals(dao.findPersonsByFirstName("Lenonbis"));
-		//Assert.assertEquals(true,b);
-		
-		
-		
-		
-		
+		// boolean b =
+		// listPersonTestFindByFirstName.equals(dao.findPersonsByFirstName("Lenonbis"));
+		// Assert.assertEquals(true,b);
 
 	}
 

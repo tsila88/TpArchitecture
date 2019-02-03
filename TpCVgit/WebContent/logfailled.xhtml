@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+
+<html lang="fr" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+
+	<title>Erreur de connexion</title>
+	<h:outputStylesheet name="./css/style.css" />
+
+</h:head>
+
+<h:body>
+
+	<p:panel header="LA CONNEXION A ECHOUÉ">
+		<h:panelGrid>
+			<p>L'adresse mail ou le mot de passe ne concorde pas</p>
+
+			<p:button outcome="index" value="Acceuil">
+			</p:button>
+
+			<p:button outcome="logon" value="Connexion">
+			</p:button>
+
+		</h:panelGrid>
+	</p:panel>
+</h:body>
+
+</html>

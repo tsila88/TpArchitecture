@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html lang="fr" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+
+	<title>Page d'authentification</title>
+
+</h:head>
+
+<h:body>
+	<h:form id="log">
+		<p:messages closable="true">
+			<p:autoUpdate />
+		</p:messages>
+
+		<p:panel header="PAGE DE CONNEXION">
+			<h:panelGrid columns="2" cellpadding="5">
+
+				<p:outputLabel for="mail" value="Adresse mail" />
+				<p:inputText id="mail" value="#{log.mail}" required="true"
+					requiredMessage="Erreur de validation: L'adresse mail est obligatoire" />
+
+				<p:outputLabel for="pswd" value="Mot de passe" />
+				<p:password id="pswd" value="#{log.pswd}" required="true"
+					requiredMessage="Erreur de validation: Le mot de passe est obligatoire" />
+
+			</h:panelGrid>
+
+			<p:commandButton value="Connexion" action="#{log.checkLog}" />
+		</p:panel>
+	</h:form>
+
+</h:body>
+
+</html>

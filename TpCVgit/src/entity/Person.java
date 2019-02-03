@@ -1,7 +1,6 @@
 package entity;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -11,8 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -58,9 +55,8 @@ public class Person implements Serializable {
 	private String passwd;
 
 	@Basic(optional = false)
-	@Temporal(TemporalType.DATE)
-	@Column(name = "birthDay")
-	private Date birthDay;
+	@Column(name = "birthDay", length = 200, nullable = false)
+	private String birthDay;
 
 	@OneToOne(cascade = { CascadeType.MERGE, CascadeType.REMOVE, CascadeType.PERSIST })
 	private CurriculumVitae cv;
@@ -69,13 +65,13 @@ public class Person implements Serializable {
 		super();
 	}
 
-	public Person(String firstName, Date birthDay) {
+	public Person(String firstName, String birthDay) {
 		super();
 		this.firstName = firstName;
 		this.birthDay = birthDay;
 	}
 
-	public Person(String firstName, String lastName, String mail, String website, String mdp, Date birthDay) {
+	public Person(String firstName, String lastName, String mail, String website, String mdp, String birthDay) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -85,7 +81,7 @@ public class Person implements Serializable {
 		this.birthDay = birthDay;
 	}
 
-	public Person(String firstName, String lastName, String mail, String website, String mdp, Date birthDay,
+	public Person(String firstName, String lastName, String mail, String website, String mdp, String birthDay,
 			CurriculumVitae cv) {
 		super();
 		this.firstName = firstName;
@@ -113,11 +109,11 @@ public class Person implements Serializable {
 		this.firstName = firstName;
 	}
 
-	public Date getBirthDay() {
+	public String getBirthDay() {
 		return birthDay;
 	}
 
-	public void setBirthDay(Date birthDay) {
+	public void setBirthDay(String birthDay) {
 		this.birthDay = birthDay;
 	}
 

@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
@@ -74,6 +75,26 @@ public class DaoPersonImp implements DaoPerson {
 		// TODO Auto-generated method stub
 		TypedQuery<Person> q = em.createQuery("SELECT p FROM Person p WHERE lastName LIKE :pattern", Person.class);
 		q.setParameter("pattern", pattern);
+		return q.getResultList();
+	}
+
+	@Override
+	public Person findLog(String mail, String passwd) throws NoResultException {
+		// TODO Auto-generated method stub
+		TypedQuery<Person> q = em.createQuery("SELECT p FROM Person p WHERE mail  LIKE :mail AND passwd LIKE :passwd",
+				Person.class);
+		q.setParameter("mail", mail);
+		q.setParameter("passwd", passwd);
+		return q.getSingleResult();
+	}
+
+	@Override
+	public List<Person> findLogList(String mail, String passwd) {
+		// TODO Auto-generated method stub
+		TypedQuery<Person> q = em.createQuery("SELECT p FROM Person p WHERE mail  LIKE :mail AND passwd LIKE :passwd",
+				Person.class);
+		q.setParameter("mail", mail);
+		q.setParameter("passwd", passwd);
 		return q.getResultList();
 	}
 
